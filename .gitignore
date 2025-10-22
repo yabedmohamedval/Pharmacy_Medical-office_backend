@@ -1,0 +1,40 @@
+# ---- OS / éditeurs ----
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# ---- IntelliJ IDEA ----
+.idea/
+*.iml
+
+# ---- Build / caches ----
+target/
+out/
+dependency-reduced-pom.xml
+
+# ---- Logs / temp ----
+*.log
+logs/
+*.pid
+*.seed
+*.tmp
+tmp/
+
+# ---- Environnements / secrets ----
+.env
+.env.*
+*.keystore
+*.jks
+
+# ---- Docker (si volumes locaux) ----
+docker-data/
+*.local.yml
+
+# ---- Node (si front embarqué) ----
+node_modules/
+dist/
+build/
+
+# ---- VS Code (si utilisé) ----
+.vscode/
