@@ -66,7 +66,6 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         Map<String, String> token = jwtGenerator.generateToken(authentication);
         String access = token.get("access-token");
-//        String refresh = token.get("refresh-token");
         return new ResponseEntity<>(access, HttpStatus.OK);
     }
     
@@ -88,7 +87,9 @@ public class AuthController {
         user.setUsername(registerDto.getUsername());
         user.setPassword(passwordEncoder.encode((registerDto.getPassword())));
 
-        Role roles = roleRepository.findByName("ETUDIANT").get();
+        Role roles = roleRepository.findByName("VISITOR")
+                .orElseThrow(() -> new RuntimeException("Role VISITOR not found"));
+
         user.setRoles(Collections.singletonList(roles));
         userRepository.save(user);
         
@@ -115,7 +116,7 @@ public class AuthController {
     @PostMapping("/reset-password")
     public ResponseEntity<String> resetPassword(@RequestBody LoginDto loginDto){
         Optional<UserEntity> userOptional = userRepository.findByUsername(loginDto.getUsername());
-        if (!userOptional.isPresent()) {
+        if (userOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
        

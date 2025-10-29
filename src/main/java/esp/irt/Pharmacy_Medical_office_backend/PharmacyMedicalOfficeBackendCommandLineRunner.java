@@ -33,35 +33,29 @@ public class PharmacyMedicalOfficeBackendCommandLineRunner implements CommandLin
     public void run(String... args) throws Exception {
         if (userRepository.count() == 0 && roleRepository.count() == 0) {
             Role adminRole = new Role("ADMIN");
-            Role visiterRole = new Role("VISITER");
+            Role visitorRole = new Role("VISITOR");
             
             roleRepository.save(adminRole);
-            roleRepository.save(visiterRole);
+            roleRepository.save(visitorRole);
             
             UserEntity adminUser = new UserEntity();
             adminUser.setUsername("admin");
             adminUser.setPassword(passwordEncoder.encode("1234"));
 
-            UserEntity regularUser = new UserEntity();
-            regularUser.setUsername("abdallahi");
-            regularUser.setPassword(passwordEncoder.encode("34887831"));
-            
-            UserEntity visiterUser = new UserEntity();
-            visiterUser.setUsername("visitor");
-            visiterUser.setPassword(passwordEncoder.encode("8080uiabd"));
+            UserEntity visitorUser = new UserEntity();
+            visitorUser.setUsername("visitor");
+            visitorUser.setPassword(passwordEncoder.encode("1234"));
 
             Optional<Role> adminRoleOptional = roleRepository.findById(adminRole.getId());
-            Optional<Role> visiterRoleOptional = roleRepository.findById(visiterRole.getId());
+            Optional<Role> visitorRoleOptional = roleRepository.findById(visitorRole.getId());
 
-            if (adminRoleOptional.isPresent() && visiterRoleOptional.isPresent()) {
+            if (adminRoleOptional.isPresent() && visitorRoleOptional.isPresent()) {
                 adminUser.setRoles(Collections.singletonList(adminRoleOptional.get()));
-                regularUser.setRoles(Collections.singletonList(adminRoleOptional.get()));
-                visiterUser.setRoles(Collections.singletonList(visiterRoleOptional.get()));
+                visitorUser.setRoles(Collections.singletonList(visitorRoleOptional.get()));
             }
 
             userRepository.save(adminUser);
-            userRepository.save(regularUser);
-            userRepository.save(visiterUser);
+            userRepository.save(visitorUser);
         }
     }
 }
